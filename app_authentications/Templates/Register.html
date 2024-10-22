@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Đăng nhập | HCS</title>
+    <title>Đăng ký | HCS</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="" />
@@ -25,7 +25,7 @@
           margin: 0;
           padding: 0;
           display: flex;
-          justify-content: space-around;
+          justify-content: space-around; /* Space items evenly */
       }
 
       nav ul li {
@@ -36,20 +36,20 @@
           color: white;
           text-decoration: none;
           padding: 14px 20px;
-          display: block;
+          display: block; /* Makes the link fill the space */
       }
 
       nav a:hover {
           background-color: #388E3C; /* Darker Green on hover */
       }
 
-      .login-title {
+      .register-title {
           text-align: center;
           margin-top: 20px;
           color: #4CAF50; /* Green */
       }
 
-      .login-form {
+      .register-form {
           max-width: 400px;
           margin: 20px auto;
           padding: 20px;
@@ -59,8 +59,9 @@
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
 
-      .login-form input[type="text"],
-      .login-form input[type="password"] {
+      .register-form input[type="text"],
+      .register-form input[type="email"],
+      .register-form input[type="password"] {
           width: 100%;
           padding: 10px;
           margin: 10px 0;
@@ -69,7 +70,7 @@
           box-sizing: border-box;
       }
 
-      .login-form button {
+      .register-form button {
           width: 100%;
           padding: 10px;
           background-color: #4CAF50; /* Green */
@@ -79,11 +80,11 @@
           cursor: pointer;
       }
 
-      .login-form button:hover {
+      .register-form button:hover {
           background-color: #388E3C; /* Darker Green on hover */
       }
 
-      .login-messages {
+      .register-messages {
           max-width: 400px;
           margin: 20px auto;
           color: red;
@@ -121,22 +122,20 @@
       </ul>
     </nav>
 
-    <h1 class="login-title">Đăng nhập</h1>
+    <h1 class="register-title">Đăng ký tài khoản</h1>
     
-    <form method="post" class="login-form">
+    <form method="POST" class="register-form">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">Đăng nhập</button>
+      <button type="submit">Đăng ký</button>
     </form>
 
     {% if messages %}
-      <ul class="login-messages">
+      <ul class="register-messages">
         {% for message in messages %}
           <li>{{ message }}</li>
         {% endfor %}
       </ul>
     {% endif %}
-
-    <script src="" async defer></script>
   </body>
 </html>

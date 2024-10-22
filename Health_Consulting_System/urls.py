@@ -1,12 +1,11 @@
 from django.contrib import admin
 from django.urls import path
 
-from app_utilities import views as utilities
-
-from app_authentications import views as authentications
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', utilities.get_home),
-    path('login', authentications.get_login),
+    path('', include('app_utilities.urls')),
+    path('auth/', include('app_authentications.urls')),
+    path('user/', include('app_users.urls')),
 ]
