@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chatbot | HCS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        nav {
+            background-color: #4caf50; /* Green */
+            color: white;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center navigation */
+        }
+        nav li {
+            margin: 0 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333; /* Footer background */
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            color: #4caf50; /* Green */
+            margin-top: 30px;
+        }
+        .chatbot-container {
+            max-width: 1280px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chat-box {
+            max-width: 1230px; /* Limit width */
+            margin: auto;
+            height: 600px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            word-wrap: break-word; /* Break long words */
+            overflow-wrap: break-word; /* Ensure text wraps inside the box */
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc; /* Add border around messages */
+            border-radius: 5px;
+            background-color: #f1f1f1; /* Light background for messages */
+        }
+        .user-message {
+            text-align: right;
+            color: #4caf50;
+            background-color: #e0f7e0; /* Lighter background for user messages */
+        }
+        .bot-message {
+            text-align: left;
+            color: #333;
+            font-size: 14px;
+            background-color: #e0e0e0; /* Light grey background for bot messages */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        form {
+            display: flex;
+            max-width: 1230px;
+            margin: auto;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li>
+                <a href="/bmi">Tính BMI</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="/user/profile">Hồ sơ người dùng</a>
+                </li>
+                {% if user.is_staff %}
+                    <li>
+                        <a href="/admin">Dành cho quản trị viên</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="/auth/logout">Đăng xuất</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/auth/login">Đăng nhập</a>
+                </li>
+                <li>
+                    <a href="/auth/register">Đăng ký</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="chatbot-container">
+        <h1>Chatbot Tư Vấn</h1>
+        <div class="chat-box" id="chat-box">
+            {% if response %}
+                <div class="message user-message">
+                    <strong>Bạn:</strong> {{ request.POST.user_question }}
+                </div>
+                <div class="message bot-message">
+                    <pre><strong>Bot:</strong> <span id="bot-response"></span></pre>
+                </div>
+            {% endif %}
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" id="user_question" name="user_question" placeholder="Hỏi tôi điều gì..." required />
+            <button type="submit">Gửi</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Hệ thống Tư vấn Sức khỏe. Tất cả quyền được bảo lưu.</p>
+    </div>
+
+    <<script>
+        // Optional: Scroll to the bottom of the chat box
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    
+        // Function to print response character by character
+        function printResponseCharByChar(responseText, element) {
+            let i = 0;
+    
+            // Function to print a single character
+            function printNextChar() {
+                if (i < responseText.length) {
+                    element.innerHTML += responseText.charAt(i);
+                    i++;
+                    setTimeout(printNextChar, 0.1); // Adjust the delay (50ms) as needed
+                }
+            }
+    
+            // Start printing characters
+            printNextChar();
+        }
+    
+        // Example response text from the server
+        const responseText = "{{ response|escapejs }}";  // Escape JavaScript for server response
+        const botResponseElement = document.getElementById('bot-response');
+    
+        // Call the function to print the response character by character
+        if (responseText) {
+            printResponseCharByChar(responseText, botResponseElement);
+        }
+    </script>
+    
+</body>
+</html>
