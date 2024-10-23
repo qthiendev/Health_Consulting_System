@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Trang chủ | HCS</title>
+    <meta name="description" content="Hệ thống Tư vấn Sức khỏe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Softer background */
+        }
+        nav {
+            background-color: #4caf50; /* Green */
+            color: white;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center navigation */
+        }
+        nav li {
+            margin: 0 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+            color: #4caf50; /* Green */
+            margin-top: 30px;
+        }
+        .welcome-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        .welcome-message {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #333; /* Darker text for contrast */
+        }
+        .services {
+            margin-top: 20px;
+        }
+        .service-item {
+            margin-bottom: 20px;
+        }
+        .service-item h3 {
+            color: #4caf50;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333; /* Footer background */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/user/profile">Hồ sơ người dùng</a></li>
+                {% if user.is_staff %}
+                    <li><a href="/admin">Dành cho quản trị viên</a></li>
+                {% endif %}
+                <li><a href="/auth/logout">Đăng xuất</a></li>
+            {% else %}
+                <li><a href="/auth/login">Đăng nhập</a></li>
+                <li><a href="/auth/register">Đăng ký</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h1>Chào mừng đến với Hệ thống Tư vấn Sức khỏe</h1>
+    <div class="welcome-container">
+        <div class="welcome-message">
+            <p>Chúng tôi cung cấp dịch vụ tư vấn sức khỏe chuyên nghiệp và tận tâm.</p>
+        </div>
+
+        <div class="services">
+            <h2>Dịch vụ của chúng tôi</h2>
+            <div class="service-item">
+                <h3>Tư vấn dinh dưỡng</h3>
+                <p>Đội ngũ chuyên gia của chúng tôi sẽ giúp bạn xây dựng chế độ ăn uống hợp lý để cải thiện sức khỏe.</p>
+            </div>
+            <div class="service-item">
+                <h3>Tư vấn sức khỏe tâm lý</h3>
+                <p>Chúng tôi cung cấp dịch vụ hỗ trợ tâm lý để giúp bạn vượt qua những khó khăn trong cuộc sống.</p>
+            </div>
+            <div class="service-item">
+                <h3>Chương trình tập luyện cá nhân hóa</h3>
+                <p>Chúng tôi thiết kế chương trình tập luyện phù hợp với nhu cầu và khả năng của từng cá nhân.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Hệ thống Tư vấn Sức khỏe. Tất cả quyền được bảo lưu.</p>
+    </div>
+</body>
+</html>

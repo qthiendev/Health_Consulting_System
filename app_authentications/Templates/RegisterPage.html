@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Đăng ký | HCS</title>
+    <meta name="description" content="Đăng ký tài khoản mới trên hệ thống tư vấn sức khỏe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Softer background */
+        }
+
+        nav {
+            background-color: #4caf50; /* Green */
+            color: white;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center navigation */
+        }
+
+        nav li {
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-title {
+            text-align: center;
+            margin-top: 30px;
+            color: #4caf50; /* Green */
+        }
+
+        .register-form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff; /* White */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .register-form input[type="text"],
+        .register-form input[type="email"],
+        .register-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .register-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50; /* Green */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .register-form button:hover {
+            background-color: #388e3c; /* Darker Green on hover */
+        }
+
+        .register-messages {
+            max-width: 400px;
+            margin: 20px auto;
+            color: red;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333; /* Footer background */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/user/profile">Hồ sơ người dùng</a></li>
+                {% if user.is_staff %}
+                    <li><a href="/admin">Dành cho quản trị viên</a></li>
+                {% endif %}
+                <li><a href="/auth/logout">Đăng xuất</a></li>
+            {% else %}
+                <li><a href="/auth/login">Đăng nhập</a></li>
+                <li><a href="/auth/register">Đăng ký</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h1 class="register-title">Đăng ký tài khoản</h1>
+    
+    <form method="POST" class="register-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Đăng ký</button>
+    </form>
+
+    {% if messages %}
+        <ul class="register-messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="footer">
+        <p>&copy; 2024 Hệ thống Tư vấn Sức khỏe. Tất cả quyền được bảo lưu.</p>
+    </div>
+</body>
+</html>

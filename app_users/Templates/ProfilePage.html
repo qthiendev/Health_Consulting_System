@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Hồ sơ người dùng | HCS</title>
+    <meta name="description" content="Hồ sơ người dùng" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9; /* Softer background */
+      }
+      nav {
+        background-color: #4caf50; /* Green */
+        color: white;
+        padding: 10px;
+      }
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center; /* Center navigation */
+      }
+      nav li {
+        margin: 0 15px;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      h1 {
+        text-align: center;
+        color: #4caf50; /* Green */
+        margin-top: 30px;
+      }
+      .profile-container {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      }
+      .profile-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      .profile-info:last-child {
+        border-bottom: none;
+      }
+      .profile-info label {
+        font-weight: bold;
+        color: #555;
+      }
+      .profile-info p {
+        margin: 0;
+        font-size: 16px;
+        color: #333;
+      }
+      .edit-button {
+        display: block;
+        text-align: center;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 16px;
+      }
+      .edit-button:hover {
+        background-color: #45a049;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #333;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/">Trang chủ</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="/user/profile">Hồ sơ người dùng</a></li>
+        {% if user.is_staff %}
+        <li><a href="/admin">Dành cho quản trị viên</a></li>
+        {% endif %}
+        <li><a href="/auth/logout">Đăng xuất</a></li>
+        {% else %}
+        <li><a href="/auth/login">Đăng nhập</a></li>
+        <li><a href="/auth/register">Đăng ký</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <h1>Thông tin Hồ sơ Người dùng</h1>
+    <div class="profile-container">
+      <div class="profile-info">
+        <label>Họ và tên:</label>
+        <p>{{ profile.user.last_name }} {{ profile.user.first_name }}</p>
+      </div>
+      <div class="profile-info">
+        <label>Email:</label>
+        <p>{{ profile.user.email }}</p>
+      </div>
+      <div class="profile-info">
+        <label>Ngày sinh:</label>
+        <p>{{ profile.birthdate }} ({{ age }} tuổi)</p>
+      </div>
+      <div class="profile-info">
+        <label>Địa chỉ:</label>
+        <p>{{ profile.address }}</p>
+      </div>
+      <div class="profile-info">
+        <label>Cân nặng:</label>
+        <p>{{ profile.weight }} kg</p>
+      </div>
+      <div class="profile-info">
+        <label>Chiều cao:</label>
+        <p>{{ profile.height }} cm</p>
+      </div>
+      <div class="profile-info">
+        <label>Mức độ tập luyện:</label>
+        <p>{{ profile.get_exercise_level_display }}</p>
+      </div>
+      <div class="profile-info">
+        <label>Lịch sử y tế:</label>
+        <p>
+          <ul>
+            {% for item in medical_histories %}
+            <li>{{ item.item }}</li>
+            {% endfor %}
+          </ul>
+        </p>
+      </div>
+      <a href="/user/profile/edit" class="edit-button">Chỉnh sửa Hồ sơ</a>
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2024 Hệ thống Tư vấn Sức khỏe. Tất cả quyền được bảo lưu.</p>
+    </div>
+  </body>
+</html>

@@ -23,7 +23,7 @@ def get_login(request):
     else:
         form = LoginForm()
 
-    return render(request, 'Login.html', {'form': form})
+    return render(request, 'LoginPage.html', {'form': form})
 
 def get_logout(request):
     logout(request)
@@ -44,4 +44,4 @@ def get_register(request):
     else:
         form = RegistrationForm()
 
-    return render(request, 'Register.html', {'form': form})
+    return render(request, 'RegisterPage.html', {'form': form})
